@@ -4,6 +4,13 @@
         <name>Penguin.Extensions.Data</name>
     </assembly>
     <members>
+        <member name="M:Penguin.Extensions.Data.DataTableExtensions.ToCSV(System.Data.DataTable,System.String)">
+            <summary>
+            Writes a DataTable to a CSV file specified by the path
+            </summary>
+            <param name="dataTable">The datatable to write</param>
+            <param name="filePath">The location of the CSV to create</param>
+        </member>
         <member name="M:Penguin.Extensions.Data.IEnumerableExtensions.ToDataTable(System.Collections.Generic.IEnumerable{System.Object})">
             <summary>
             Converts an IEnumerable of objects to a data table, with property names as headers and values as items

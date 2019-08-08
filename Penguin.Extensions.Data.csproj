@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -7,22 +7,22 @@
     <PackageLicenseFile>License.txt</PackageLicenseFile>
     <PackageProjectUrl>http://www.penguinms.com/Nuget</PackageProjectUrl>
 	<PackageIconUrl>http://www.penguinms.com/client/images/pg.png</PackageIconUrl>
-    <Version>1.1.8</Version>
+    <Version>1.2.0</Version>
 	<Description>DataTable Extensions. Currently only contains a method for converting a DataTable to a CSV</Description>
   </PropertyGroup>
   
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <WarningsAsErrors>NU1605, CS1591</WarningsAsErrors>
-    <DocumentationFile>C:\SVN\Framework\Nuget\Penguin.Extensions.Data\Penguin.Extensions.Data.xml</DocumentationFile>
+    <DocumentationFile>Penguin.Extensions.Data.xml</DocumentationFile>
   </PropertyGroup>
   
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 	<DebugType>full</DebugType>
-      <DocumentationFile>C:\SVN\Framework\Nuget\Penguin.Extensions.Data\Penguin.Extensions.Data.xml</DocumentationFile>
+      <DocumentationFile>Penguin.Extensions.Data.xml</DocumentationFile>
     </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\License.txt">
+    <None Include="License.txt">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
