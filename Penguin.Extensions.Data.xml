@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Penguin.Extensions.Data</name>
+    </assembly>
+    <members>
+        <member name="M:Penguin.Extensions.Data.IEnumerableExtensions.ToDataTable(System.Collections.Generic.IEnumerable{System.Object})">
+            <summary>
+            Converts an IEnumerable of objects to a data table, with property names as headers and values as items
+            </summary>
+            <param name="objList">The IEnumerable of objects to use as a data source</param>
+            <returns>A data table containing the object values</returns>
+        </member>
+        <member name="M:Penguin.Extensions.Data.XNodeExtensions.GetAllChildrenByName(System.Xml.Linq.XNode,System.String)">
+            <summary>
+            Returns a list of all child nodes by name
+            </summary>
+            <param name="node">The node to search</param>
+            <param name="childName">The child name to search for</param>
+            <returns>All children matching the name</returns>
+        </member>
+        <member name="M:Penguin.Extensions.Data.XNodeExtensions.GetAllChildrenByName(System.Xml.Linq.XElement,System.String)">
+            <summary>
+            Returns a list of all child nodes by name
+            </summary>
+            <param name="node">The node to search</param>
+            <param name="childName">The child name to search for</param>
+            <returns>All children matching the name</returns>
+        </member>
+    </members>
+</doc>
