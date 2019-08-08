@@ -12,7 +12,14 @@ namespace Penguin.Extensions.Data
         /// </summary>
         /// <param name="dataTable">The datatable to write</param>
         /// <param name="filePath">The location of the CSV to create</param>
-        public static void ToCSV(this DataTable dataTable, string filePath)
+        public static void ToCSV(this DataTable dataTable, string filePath) => System.IO.File.WriteAllText(filePath, dataTable.ToCSV());
+
+        /// <summary>
+        /// Writes a datatable as a CSV string and returns the string
+        /// </summary>
+        /// <param name="dataTable">The data source</param>
+        /// <returns>A CSV representation of the data table</returns>
+        public static string ToCSV(this DataTable dataTable)
         {
             StringBuilder fileContent = new StringBuilder();
 
@@ -33,7 +40,7 @@ namespace Penguin.Extensions.Data
                 fileContent.Replace(",", System.Environment.NewLine, fileContent.Length - 1, 1);
             }
 
-            System.IO.File.WriteAllText(filePath, fileContent.ToString());
+            return fileContent.ToString();
         }
     }
 }
