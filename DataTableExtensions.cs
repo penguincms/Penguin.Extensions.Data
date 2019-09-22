@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Diagnostics.Contracts;
 using System.Text;
 
 namespace Penguin.Extensions.Data
@@ -21,6 +22,8 @@ namespace Penguin.Extensions.Data
         /// <returns>A CSV representation of the data table</returns>
         public static string ToCSV(this DataTable dataTable)
         {
+            Contract.Requires(dataTable != null);
+
             StringBuilder fileContent = new StringBuilder();
 
             foreach (object col in dataTable.Columns)
@@ -41,6 +44,43 @@ namespace Penguin.Extensions.Data
             }
 
             return fileContent.ToString();
+        }
+
+        /// <summary>
+        /// Returns an HTML string table representation of a data table
+        /// </summary>
+        /// <param name="dt">The data table to convert</param>
+        /// <returns>An HTML string table representation of a data table</returns>
+        public static string ToHtmlTable(this DataTable dt)
+        {
+            Contract.Requires(dt != null);
+
+            StringBuilder body = new StringBuilder();
+
+            body.Append("<table><tr>");
+
+            foreach (DataColumn dc in dt.Columns)
+            {
+                body.Append($"<th>{dc.ColumnName}</th>");
+            }
+
+            body.Append("</tr>");
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                body.Append("<tr>");
+
+                foreach (object o in dr.ItemArray)
+                {
+                    body.Append($"<td>{o}</td>");
+                }
+
+                body.Append("</tr>");
+            }
+
+            body.Append("</table>");
+
+            return body.ToString();
         }
     }
 }
