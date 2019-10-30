@@ -5,5 +5,7 @@
     <Version>1.2.2</Version>
     <Description>DataTable Extensions. Currently only contains a method for converting a DataTable to a CSV</Description>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Penguin.Extensions.Data</AssemblyName>
+    <RootNamespace>Penguin.Extensions.Data</RootNamespace>
   </PropertyGroup>
 </Project>
