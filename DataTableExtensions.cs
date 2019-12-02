@@ -37,7 +37,7 @@ namespace Penguin.Extensions.Data
             {
                 foreach (object column in dr.ItemArray)
                 {
-                    fileContent.Append("\"" + column.ToString() + "\",");
+                    fileContent.Append("\"" + column.ToString().Replace("\"", "\"\"") + "\",");
                 }
 
                 fileContent.Replace(",", System.Environment.NewLine, fileContent.Length - 1, 1);
