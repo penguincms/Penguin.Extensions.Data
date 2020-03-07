@@ -6,6 +6,7 @@ using System.Xml.Linq;
 namespace Penguin.Extensions.Data
 {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
     public static class XNodeExtensions
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     {

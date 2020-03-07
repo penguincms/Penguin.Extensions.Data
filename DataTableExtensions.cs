@@ -1,10 +1,13 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using System.Text;
 
 namespace Penguin.Extensions.Data
 {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
     public static class DataTableExtensions
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     {
@@ -13,34 +16,40 @@ namespace Penguin.Extensions.Data
         /// </summary>
         /// <param name="dataTable">The datatable to write</param>
         /// <param name="filePath">The location of the CSV to create</param>
-        public static void ToCSV(this DataTable dataTable, string filePath) => System.IO.File.WriteAllText(filePath, dataTable.ToCSV());
+        public static void ToCsv(this DataTable dataTable, string filePath) => System.IO.File.WriteAllText(filePath, dataTable.ToCsv());
+
+        /// <summary>
+        /// Writes a DataTable to a CSV file specified by the path
+        /// </summary>
+        /// <param name="dataTable">The datatable to write</param>
+        /// <param name="filePath">The location of the CSV to create</param>
+        [Obsolete("Use ToCsv", false)]
+        public static void ToCSV(this DataTable dataTable, string filePath) => System.IO.File.WriteAllText(filePath, dataTable.ToCsv());
 
         /// <summary>
         /// Writes a datatable as a CSV string and returns the string
         /// </summary>
         /// <param name="dataTable">The data source</param>
         /// <returns>A CSV representation of the data table</returns>
-        public static string ToCSV(this DataTable dataTable)
+        [Obsolete("Use ToCsv", false)]
+        public static string ToCSV(this DataTable dataTable) => dataTable.ToCsv();
+
+        /// <summary>
+        /// Writes a datatable as a CSV string and returns the string
+        /// </summary>
+        /// <param name="dataTable">The data source</param>
+        /// <returns>A CSV representation of the data table</returns>
+        public static string ToCsv(this DataTable dataTable)
         {
             Contract.Requires(dataTable != null);
 
             StringBuilder fileContent = new StringBuilder();
 
-            foreach (object col in dataTable.Columns)
-            {
-                fileContent.Append(col.ToString() + ",");
-            }
-
-            fileContent.Replace(",", System.Environment.NewLine, fileContent.Length - 1, 1);
+            fileContent.Append(string.Join(",", dataTable.Columns) + System.Environment.NewLine); //ToSTring for the header name?
 
             foreach (DataRow dr in dataTable.Rows)
             {
-                foreach (object column in dr.ItemArray)
-                {
-                    fileContent.Append("\"" + column.ToString().Replace("\"", "\"\"") + "\",");
-                }
-
-                fileContent.Replace(",", System.Environment.NewLine, fileContent.Length - 1, 1);
+                fileContent.Append(string.Join(",", dr.ItemArray.Select(d => d.ToString().Replace("\"", "\"\""))) + System.Environment.NewLine);
             }
 
             return fileContent.ToString();

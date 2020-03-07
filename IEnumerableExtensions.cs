@@ -8,6 +8,7 @@ using System.Reflection;
 namespace Penguin.Extensions.Data
 {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
     public static class IEnumerableExtensions
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     {
@@ -30,7 +31,6 @@ namespace Penguin.Extensions.Data
 
             foreach (PropertyInfo thisProp in objectType.GetProperties().Reverse())
             {
-
                 int index = 0;
 
                 while (index < Properties.Count && PropertyOrder[Properties.ElementAt(index)] > index)
@@ -39,7 +39,6 @@ namespace Penguin.Extensions.Data
                 }
                 Properties.Insert(index, thisProp);
                 PropertyOrder.Add(thisProp, index);
-
             }
 
             foreach (PropertyInfo thisProperty in Properties)
