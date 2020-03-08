@@ -4,6 +4,13 @@
         <name>Penguin.Extensions.Data</name>
     </assembly>
     <members>
+        <member name="M:Penguin.Extensions.Data.DataTableExtensions.ToCsv(System.Data.DataTable,System.String)">
+            <summary>
+            Writes a DataTable to a CSV file specified by the path
+            </summary>
+            <param name="dataTable">The datatable to write</param>
+            <param name="filePath">The location of the CSV to create</param>
+        </member>
         <member name="M:Penguin.Extensions.Data.DataTableExtensions.ToCSV(System.Data.DataTable,System.String)">
             <summary>
             Writes a DataTable to a CSV file specified by the path
@@ -17,6 +24,20 @@
             </summary>
             <param name="dataTable">The data source</param>
             <returns>A CSV representation of the data table</returns>
+        </member>
+        <member name="M:Penguin.Extensions.Data.DataTableExtensions.ToCsv(System.Data.DataTable)">
+            <summary>
+            Writes a datatable as a CSV string and returns the string
+            </summary>
+            <param name="dataTable">The data source</param>
+            <returns>A CSV representation of the data table</returns>
+        </member>
+        <member name="M:Penguin.Extensions.Data.DataTableExtensions.ToHtmlTable(System.Data.DataTable)">
+            <summary>
+            Returns an HTML string table representation of a data table
+            </summary>
+            <param name="dt">The data table to convert</param>
+            <returns>An HTML string table representation of a data table</returns>
         </member>
         <member name="M:Penguin.Extensions.Data.IEnumerableExtensions.ToDataTable(System.Collections.Generic.IEnumerable{System.Object})">
             <summary>

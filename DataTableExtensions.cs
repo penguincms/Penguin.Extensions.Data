@@ -45,11 +45,12 @@ namespace Penguin.Extensions.Data
 
             StringBuilder fileContent = new StringBuilder();
 
-            fileContent.Append(string.Join(",", dataTable.Columns) + System.Environment.NewLine); //ToSTring for the header name?
+            fileContent.Append(string.Join(",", dataTable.Columns.Cast<DataColumn>())); //ToString for the header name?
 
             foreach (DataRow dr in dataTable.Rows)
             {
-                fileContent.Append(string.Join(",", dr.ItemArray.Select(d => d.ToString().Replace("\"", "\"\""))) + System.Environment.NewLine);
+                fileContent.Append(System.Environment.NewLine);
+                fileContent.Append(string.Join(",", dr.ItemArray.Select(d => $"\"{d.ToString().Replace("\"", "\"\"")}\"")));
             }
 
             return fileContent.ToString();
