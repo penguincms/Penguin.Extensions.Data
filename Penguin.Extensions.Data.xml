@@ -11,26 +11,29 @@
             <param name="dataTable">The datatable to write</param>
             <param name="filePath">The location of the CSV to create</param>
         </member>
-        <member name="M:Penguin.Extensions.Data.DataTableExtensions.ToCSV(System.Data.DataTable,System.String)">
+        <member name="M:Penguin.Extensions.Data.DataTableExtensions.ToCSV(System.Data.DataTable,System.String,System.Boolean)">
             <summary>
             Writes a DataTable to a CSV file specified by the path
             </summary>
             <param name="dataTable">The datatable to write</param>
             <param name="filePath">The location of the CSV to create</param>
+            <param name="includeHeaders">Write column headers to the output string</param>
         </member>
-        <member name="M:Penguin.Extensions.Data.DataTableExtensions.ToCSV(System.Data.DataTable)">
+        <member name="M:Penguin.Extensions.Data.DataTableExtensions.ToCSV(System.Data.DataTable,System.Boolean)">
             <summary>
             Writes a datatable as a CSV string and returns the string
             </summary>
             <param name="dataTable">The data source</param>
             <returns>A CSV representation of the data table</returns>
+            <param name="includeHeaders">Write column headers to the output string</param>
         </member>
-        <member name="M:Penguin.Extensions.Data.DataTableExtensions.ToCsv(System.Data.DataTable)">
+        <member name="M:Penguin.Extensions.Data.DataTableExtensions.ToCsv(System.Data.DataTable,System.Boolean)">
             <summary>
             Writes a datatable as a CSV string and returns the string
             </summary>
             <param name="dataTable">The data source</param>
             <returns>A CSV representation of the data table</returns>
+            <param name="includeHeaders">Write column headers to the output string</param>
         </member>
         <member name="M:Penguin.Extensions.Data.DataTableExtensions.ToHtmlTable(System.Data.DataTable)">
             <summary>

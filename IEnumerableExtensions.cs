@@ -21,6 +21,11 @@ namespace Penguin.Extensions.Data
         /// <returns>A data table containing the object values</returns>
         public static DataTable ToDataTable(this System.Collections.Generic.IEnumerable<object> objList)
         {
+            if (objList is null)
+            {
+                throw new ArgumentNullException(nameof(objList));
+            }
+
             DataTable thisTable = new DataTable();
 
             Type objectType = objList.GetType().GenericTypeArguments[0];

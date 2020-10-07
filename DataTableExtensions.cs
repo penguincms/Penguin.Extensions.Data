@@ -23,34 +23,49 @@ namespace Penguin.Extensions.Data
         /// </summary>
         /// <param name="dataTable">The datatable to write</param>
         /// <param name="filePath">The location of the CSV to create</param>
+        /// <param name="includeHeaders">Write column headers to the output string</param>
         [Obsolete("Use ToCsv", false)]
-        public static void ToCSV(this DataTable dataTable, string filePath) => System.IO.File.WriteAllText(filePath, dataTable.ToCsv());
+        public static void ToCSV(this DataTable dataTable, string filePath, bool includeHeaders = true) => System.IO.File.WriteAllText(filePath, dataTable.ToCsv(includeHeaders));
 
         /// <summary>
         /// Writes a datatable as a CSV string and returns the string
         /// </summary>
         /// <param name="dataTable">The data source</param>
         /// <returns>A CSV representation of the data table</returns>
+        /// <param name="includeHeaders">Write column headers to the output string</param>
         [Obsolete("Use ToCsv", false)]
-        public static string ToCSV(this DataTable dataTable) => dataTable.ToCsv();
+        public static string ToCSV(this DataTable dataTable, bool includeHeaders = true) => dataTable.ToCsv(includeHeaders);
 
         /// <summary>
         /// Writes a datatable as a CSV string and returns the string
         /// </summary>
         /// <param name="dataTable">The data source</param>
         /// <returns>A CSV representation of the data table</returns>
-        public static string ToCsv(this DataTable dataTable)
+        /// <param name="includeHeaders">Write column headers to the output string</param>
+        public static string ToCsv(this DataTable dataTable, bool includeHeaders = true)
         {
             Contract.Requires(dataTable != null);
 
             StringBuilder fileContent = new StringBuilder();
 
-            fileContent.Append(string.Join(",", dataTable.Columns.Cast<DataColumn>())); //ToString for the header name?
+            bool firstLine = true;
+            if (includeHeaders)
+            {
+                fileContent.Append(string.Join(",", dataTable.Columns.Cast<DataColumn>())); //ToString for the header name?
+                firstLine = false;
+            }
 
+            
             foreach (DataRow dr in dataTable.Rows)
             {
-                fileContent.Append(System.Environment.NewLine);
+                if (!firstLine)
+                {
+                    fileContent.Append(System.Environment.NewLine);
+                }
+
                 fileContent.Append(string.Join(",", dr.ItemArray.Select(d => $"\"{d.ToString().Replace("\"", "\"\"")}\"")));
+
+                firstLine = false;
             }
 
             return fileContent.ToString();
