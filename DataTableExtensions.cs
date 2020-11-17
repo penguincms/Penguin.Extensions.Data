@@ -16,7 +16,8 @@ namespace Penguin.Extensions.Data
         /// </summary>
         /// <param name="dataTable">The datatable to write</param>
         /// <param name="filePath">The location of the CSV to create</param>
-        public static void ToCsv(this DataTable dataTable, string filePath) => System.IO.File.WriteAllText(filePath, dataTable.ToCsv());
+        /// <param name="includeHeaders">Write column headers to the output string</param>
+        public static void ToCsv(this DataTable dataTable, string filePath, bool includeHeaders = true) => System.IO.File.WriteAllText(filePath, dataTable.ToCsv(includeHeaders));
 
         /// <summary>
         /// Writes a DataTable to a CSV file specified by the path

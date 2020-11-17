@@ -4,12 +4,13 @@
         <name>Penguin.Extensions.Data</name>
     </assembly>
     <members>
-        <member name="M:Penguin.Extensions.Data.DataTableExtensions.ToCsv(System.Data.DataTable,System.String)">
+        <member name="M:Penguin.Extensions.Data.DataTableExtensions.ToCsv(System.Data.DataTable,System.String,System.Boolean)">
             <summary>
             Writes a DataTable to a CSV file specified by the path
             </summary>
             <param name="dataTable">The datatable to write</param>
             <param name="filePath">The location of the CSV to create</param>
+            <param name="includeHeaders">Write column headers to the output string</param>
         </member>
         <member name="M:Penguin.Extensions.Data.DataTableExtensions.ToCSV(System.Data.DataTable,System.String,System.Boolean)">
             <summary>
