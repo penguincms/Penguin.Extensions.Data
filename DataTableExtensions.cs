@@ -18,7 +18,8 @@ namespace Penguin.Extensions.Data
         /// <param name="dataTable">The datatable to write</param>
         /// <param name="filePath">The location of the CSV to create</param>
         /// <param name="includeHeaders">Write column headers to the output string</param>
-        public static void ToCsv(this DataTable dataTable, string filePath, bool includeHeaders = true) => System.IO.File.WriteAllText(filePath, dataTable.ToCsv(includeHeaders));
+        /// <param name="quoteValues">Should the values be quoted</param>
+        public static void ToCsv(this DataTable dataTable, string filePath, bool includeHeaders = true, bool quoteValues = true) => System.IO.File.WriteAllText(filePath, dataTable.ToCsv(includeHeaders, quoteValues));
 
         /// <summary>
         /// Writes a DataTable to a CSV file specified by the path
@@ -26,8 +27,9 @@ namespace Penguin.Extensions.Data
         /// <param name="dataTable">The datatable to write</param>
         /// <param name="filePath">The location of the CSV to create</param>
         /// <param name="includeHeaders">Write column headers to the output string</param>
+        /// <param name="quoteValues">Should the values be quoted</param>
         [Obsolete("Use ToCsv", false)]
-        public static void ToCSV(this DataTable dataTable, string filePath, bool includeHeaders = true) => System.IO.File.WriteAllText(filePath, dataTable.ToCsv(includeHeaders));
+        public static void ToCSV(this DataTable dataTable, string filePath, bool includeHeaders = true, bool quoteValues = true) => System.IO.File.WriteAllText(filePath, dataTable.ToCsv(includeHeaders, quoteValues));
 
         /// <summary>
         /// Writes a datatable as a CSV string and returns the string
@@ -35,8 +37,9 @@ namespace Penguin.Extensions.Data
         /// <param name="dataTable">The data source</param>
         /// <returns>A CSV representation of the data table</returns>
         /// <param name="includeHeaders">Write column headers to the output string</param>
+        /// <param name="quoteValues">Should the values be quoted</param>
         [Obsolete("Use ToCsv", false)]
-        public static string ToCSV(this DataTable dataTable, bool includeHeaders = true) => dataTable.ToCsv(includeHeaders);
+        public static string ToCSV(this DataTable dataTable, bool includeHeaders = true, bool quoteValues = true) => dataTable.ToCsv(includeHeaders, quoteValues);
 
         /// <summary>
         /// Writes a datatable as a CSV string and returns the string
@@ -44,7 +47,8 @@ namespace Penguin.Extensions.Data
         /// <param name="dataTable">The data source</param>
         /// <returns>A CSV representation of the data table</returns>
         /// <param name="includeHeaders">Write column headers to the output string</param>
-        public static string ToCsv(this DataTable dataTable, bool includeHeaders = true)
+        /// <param name="quoteValues">Should the values be quoted</param>
+        public static string ToCsv(this DataTable dataTable, bool includeHeaders = true, bool quoteValues = true)
         {
             Contract.Requires(dataTable != null);
 
@@ -63,6 +67,8 @@ namespace Penguin.Extensions.Data
                 {
                     fileContent.Append(System.Environment.NewLine);
                 }
+                
+                fileContent.Append(string.Join(",", dr.ItemArray.Select(item => quoteValues ? $"\"{$"{item}".Replace("\"", "\"\"")}\"" : $"{item}")));
 
                 fileContent.Append(string.Join(",", dr.ItemArray.Select(d => $"\"{ObjectToString(d).Replace("\"", "\"\"")}\"")));
 
