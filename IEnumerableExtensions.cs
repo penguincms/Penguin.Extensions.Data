@@ -48,8 +48,8 @@ namespace Penguin.Extensions.Data
 
             foreach (PropertyInfo thisProperty in Properties)
             {
-                string DisplayName = string.Empty;
                 DisplayNameAttribute displayNameAttribute = thisProperty.GetCustomAttribute<DisplayNameAttribute>();
+                string DisplayName;
                 if (displayNameAttribute != null)
                 {
                     DisplayName = displayNameAttribute.DisplayName;

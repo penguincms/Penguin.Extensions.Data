@@ -2,6 +2,7 @@
 using System.Data;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Penguin.Extensions.Data
@@ -56,7 +57,6 @@ namespace Penguin.Extensions.Data
                 firstLine = false;
             }
 
-            
             foreach (DataRow dr in dataTable.Rows)
             {
                 if (!firstLine)
@@ -64,12 +64,136 @@ namespace Penguin.Extensions.Data
                     fileContent.Append(System.Environment.NewLine);
                 }
 
-                fileContent.Append(string.Join(",", dr.ItemArray.Select(d => $"\"{d.ToString().Replace("\"", "\"\"")}\"")));
+                fileContent.Append(string.Join(",", dr.ItemArray.Select(d => $"\"{ObjectToString(d).Replace("\"", "\"\"")}\"")));
 
                 firstLine = false;
             }
 
             return fileContent.ToString();
+        }
+
+        private static string ObjectToString(object o)
+        {
+            if (o is DateTime dt)
+            {
+                return $"{dt:yyyy-MM-dd HH:mm:ss.fff}";
+            }
+            else
+            {
+                return $"{o}";
+            }
+        }
+
+        public static void AddOrUpdate(this DataRow dr, string column, object value)
+        {
+            if (dr is null)
+            {
+                throw new ArgumentNullException(nameof(dr));
+            }
+
+            dr.Table.EnsureColumn(column);
+            dr[column] = value;
+        }
+
+        public static DataRow Add(this DataTable dt, object toAdd)
+        {
+            if (dt is null)
+            {
+                throw new ArgumentNullException(nameof(dt));
+            }
+
+            if (toAdd is null)
+            {
+                throw new ArgumentNullException(nameof(toAdd));
+            }
+
+            DataRow newRow = dt.NewRow();
+
+            foreach (PropertyInfo pi in toAdd.GetType().GetProperties())
+            {
+                if (pi.GetGetMethod() != null)
+                {
+                    object val = pi.GetValue(toAdd);
+
+                    if (val is null)
+                    {
+                        newRow[pi.Name] = DBNull.Value;
+                    }
+                    else
+                    {
+                        newRow[pi.Name] = val;
+                    }
+                }
+            }
+
+            dt.Rows.Add(newRow);
+
+            return newRow;
+        }
+
+        public static bool ContainsColumn(this DataTable dt, string columnName, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
+        {
+            if (dt is null)
+            {
+                throw new ArgumentNullException(nameof(dt));
+            }
+
+            if (string.IsNullOrEmpty(columnName))
+            {
+                throw new ArgumentException($"'{nameof(columnName)}' cannot be null or empty.", nameof(columnName));
+            }
+
+            return dt.Columns.Cast<DataColumn>().Any(dc => string.Equals(columnName, dc.ColumnName, comparison));
+        }
+
+        public static void Scaffold(this DataTable dt, Type toScaffold)
+        {
+            if (dt is null)
+            {
+                throw new ArgumentNullException(nameof(dt));
+            }
+
+            if (toScaffold is null)
+            {
+                throw new ArgumentNullException(nameof(toScaffold));
+            }
+
+            foreach (PropertyInfo pi in toScaffold.GetProperties())
+            {
+                if (pi.GetGetMethod() != null)
+                {
+                    dt.EnsureColumn(pi.Name, pi.PropertyType);
+                }
+            }
+        }
+        public static bool EnsureColumn(this DataTable dt, string columnName, Type columnType = null)
+        {
+            if (dt is null)
+            {
+                throw new ArgumentNullException(nameof(dt));
+            }
+
+            if (string.IsNullOrEmpty(columnName))
+            {
+                throw new ArgumentException($"'{nameof(columnName)}' cannot be null or empty.", nameof(columnName));
+            }
+
+
+            columnType = columnType ?? typeof(string);
+
+            if (columnType.IsGenericType && columnType.GetGenericTypeDefinition() == typeof(Nullable<>))
+            {
+                columnType = Nullable.GetUnderlyingType(columnType);
+            }
+
+            if (dt.ContainsColumn(columnName))
+            {
+                return true;
+            }
+
+            dt.Columns.Add(columnName, columnType);
+
+            return false;
         }
 
         /// <summary>

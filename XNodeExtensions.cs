@@ -33,7 +33,8 @@ namespace Penguin.Extensions.Data
             if (node is XElement xelementnode)
             {
                 xelementnode.GetAllChildrenByName(childName);
-            } else
+            }
+            else
             {
                 throw new ArgumentException("Node must be a valid XElement", nameof(node));
             }
