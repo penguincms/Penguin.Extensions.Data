@@ -41,6 +41,45 @@ namespace Penguin.Extensions.Data
         [Obsolete("Use ToCsv", false)]
         public static string ToCSV(this DataTable dataTable, bool includeHeaders = true, bool quoteValues = true) => dataTable.ToCsv(includeHeaders, quoteValues);
 
+        public static string ToCsvRow(this DataRow dr, bool quoted = true)
+        {
+            if (dr is null)
+            {
+                throw new ArgumentNullException(nameof(dr));
+            }
+
+            StringBuilder sb = new StringBuilder();
+
+            for(int i = 0; i < dr.ItemArray.Length; i++)
+            {
+                if(i != 0)
+                {
+                    sb.Append(',');
+                }
+
+                if(quoted)
+                {
+                    sb.Append('"');
+                }
+
+                string oVal = ObjectToString(dr.ItemArray[i]);
+
+                if(quoted)
+                {
+                    oVal = oVal.Replace("\"", "\"\"");
+                }
+
+                sb.Append(oVal);
+
+                if(quoted)
+                {
+                    sb.Append('"');
+                }
+            }
+
+            return sb.ToString();
+        }
+
         /// <summary>
         /// Writes a datatable as a CSV string and returns the string
         /// </summary>
@@ -68,9 +107,7 @@ namespace Penguin.Extensions.Data
                     fileContent.Append(System.Environment.NewLine);
                 }
                 
-                fileContent.Append(string.Join(",", dr.ItemArray.Select(item => quoteValues ? $"\"{$"{item}".Replace("\"", "\"\"")}\"" : $"{item}")));
-
-                fileContent.Append(string.Join(",", dr.ItemArray.Select(d => $"\"{ObjectToString(d).Replace("\"", "\"\"")}\"")));
+                fileContent.Append(dr.ToCsvRow(quoteValues));
 
                 firstLine = false;
             }
