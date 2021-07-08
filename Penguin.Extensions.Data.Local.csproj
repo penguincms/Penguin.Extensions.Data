@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <Import Project="Penguin.Projects.Shared\Penguin.Projects.Shared.csproj" />
   <PropertyGroup>
-    <PackageProjectUrl>https://github.com/penguincms/Penguin.Extensions.Data</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/PenguinCMS/Penguin.Extensions.Data</PackageProjectUrl>
     <Version>5.0.5</Version>
     <Description>DataTable Extensions. Currently only contains a method for converting a DataTable to a CSV</Description>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -9,4 +9,7 @@
     <RootNamespace>Penguin.Extensions.Data</RootNamespace>
     <DocumentationFile>Penguin.Extensions.Data.xml</DocumentationFile>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Penguin.FileStreams\Penguin.FileStreams.Local.csproj" />
+  </ItemGroup>
 </Project>
